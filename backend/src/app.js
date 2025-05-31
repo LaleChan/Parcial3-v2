@@ -39,8 +39,11 @@ app.use("/api/permisos", permisoRoutes);
 app.use(express.static(path.join(__dirname, "../frontend/frontend/build")));
 
 // Para cualquier ruta no manejada, enviar index.html del frontend
-app.get("/*", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../frontend/frontend/build", "index.html"));
+app.use((req, res, next) => {
+    if (req.method === "GET" && !req.path.startsWith("/api")) {
+      res.sendFile(path.resolve(__dirname, "../frontend/frontend/build/index.html"));
+    } else {
+      next();
+    }
   });
-
 export default app;
