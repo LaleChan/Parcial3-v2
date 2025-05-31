@@ -1,34 +1,46 @@
-/* Importamos a framework express */
 import express from "express";
-import cors from "cors"
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
-import materiaRoutes from "./routes/materias.route.js"
-import usuarioRoutes from "./routes/usuarios.route.js"
-import salonRoutes from "./routes/salones.route.js"
-import profesorRoutes from "./routes/profesores.route.js"
-import horarioRoutes from "./routes/horarios_salones.route.js"
-import registroRoutes from "./routes/registros.route.js"
-import permisoRoutes from "./routes/permisos.route.js"
+// Importar rutas
+import materiaRoutes from "./routes/materias.route.js";
+import usuarioRoutes from "./routes/usuarios.route.js";
+import salonRoutes from "./routes/salones.route.js";
+import profesorRoutes from "./routes/profesores.route.js";
+import horarioRoutes from "./routes/horarios_salones.route.js";
+import registroRoutes from "./routes/registros.route.js";
+import permisoRoutes from "./routes/permisos.route.js";
 
-/* Asignamos a app toda funcionalidad para mi server web */
+// Inicializar app
 const app = express();
 
-/* Setear un puerto a mi web server */
-app.set("port",5000)
+// Para usar __dirname en ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+// Puerto
+app.set("port", process.env.PORT || 5000);
+
+// Middleware
 app.use(cors());
-
-/* Middleware */
 app.use(express.json());
 
-/* routes */
-app.use("/api/materias", materiaRoutes)
-app.use("/api/usuarios", usuarioRoutes)
-app.use("/api/salones", salonRoutes)
-app.use("/api/profesores", profesorRoutes)
-app.use("/api/horarios", horarioRoutes)
-app.use("/api/registros", registroRoutes)
-app.use("/api/permisos", permisoRoutes)
+// Rutas API
+app.use("/api/materias", materiaRoutes);
+app.use("/api/usuarios", usuarioRoutes);
+app.use("/api/salones", salonRoutes);
+app.use("/api/profesores", profesorRoutes);
+app.use("/api/horarios", horarioRoutes);
+app.use("/api/registros", registroRoutes);
+app.use("/api/permisos", permisoRoutes);
 
-/* Hacemos disponible a mi server app para toda la aplicacion */
+// Servir frontend desde React build
+app.use(express.static(path.join(__dirname, "../frontend/frontend/build")));
+
+// Para cualquier ruta no manejada, enviar index.html del frontend
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../frontend/frontend/build/index.html"));
+});
+
 export default app;
