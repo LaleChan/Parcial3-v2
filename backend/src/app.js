@@ -36,12 +36,12 @@ app.use("/api/registros", registroRoutes);
 app.use("/api/permisos", permisoRoutes);
 
 // Servir frontend desde React build
-app.use(express.static(path.join(__dirname, "../frontend/frontend/build")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
 
 // Para cualquier ruta no manejada, enviar index.html del frontend
 app.use((req, res, next) => {
     if (req.method === "GET" && !req.path.startsWith("/api")) {
-      res.sendFile(path.resolve(__dirname, "../frontend/frontend/build/index.html"));
+        res.sendFile(path.join(__dirname, "../frontend/frontend/build/index.html"));
     } else {
       next();
     }
