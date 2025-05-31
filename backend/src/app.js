@@ -39,11 +39,8 @@ app.use("/api/permisos", permisoRoutes);
 app.use(express.static(path.join(__dirname, "../frontend/frontend/build")));
 
 // Para cualquier ruta no manejada, enviar index.html del frontend
-import { createProxyMiddleware } from "http-proxy-middleware"; // si fuera necesario proxy (opcional)
-
 app.get("/*", (req, res) => {
-  res.sendFile(path.resolve(__dirname, "../frontend/frontend/build", "index.html"));
-});
-
+    res.sendFile(path.resolve(__dirname, "../frontend/frontend/build", "index.html"));
+  });
 
 export default app;
