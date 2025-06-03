@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, "../frontend/build")));
 // Para cualquier ruta no manejada, enviar index.html del frontend
 app.use((req, res, next) => {
     if (req.method === "GET" && !req.path.startsWith("/api")) {
-        res.sendFile(path.join(__dirname, "../frontend/index.html"));
+        res.sendFile(path.join(__dirname, "../frontend/frontend/build/index.html"));
     } else {
       next();
     }
